@@ -1,2 +1,2 @@
 # tdd
-Projects builded with Test Driven Development
+Projects build with Test Driven Development
