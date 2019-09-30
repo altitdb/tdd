@@ -18,6 +18,16 @@ class RoundRepositoryTest {
     private RoundRepository roundRepository;
 
     @Test
+    void shouldReturnScoreZeroWhenNotExistsShots() {
+        roundRepository.deleteAll();
+        Integer expected = 0;
+
+        Integer score = roundRepository.getScore();
+        
+        Assertions.assertSame(expected, score);
+    }
+    
+    @Test
     void shouldSumTheScore() {
         Round round = Round.builder()
                 .withId(UUID.randomUUID())

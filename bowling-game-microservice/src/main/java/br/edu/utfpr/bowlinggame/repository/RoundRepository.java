@@ -11,7 +11,7 @@ import br.edu.utfpr.bowlinggame.entity.Round;
 @Repository
 public interface RoundRepository extends JpaRepository<Round, UUID> {
 
-    @Query("select sum(r.score) from Round r")
+    @Query("select coalesce(sum(r.score), 0) from Round r")
     Integer getScore();
 
 }
