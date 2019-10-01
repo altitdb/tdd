@@ -18,6 +18,7 @@ public class Round {
     private UUID id;
     private Integer firstShot;
     private Integer secondShot;
+    private Integer bonus;
     private Integer score;
 
     public Round(Integer firstShot) {
@@ -113,13 +114,25 @@ public class Round {
         this.secondShot = secondShot;
         this.score = this.firstShot + this.secondShot;
     }
-    
+
     public Boolean isStrike() {
         return firstShot == 10;
     }
 
+    public Boolean isSpare() {
+        if (secondShot == null) {
+            return false;
+        }
+        return (firstShot + secondShot) == 10;
+    }
+
     public Boolean isIncomplete() {
         return !isStrike() && firstShot != null && secondShot == null;
+    }
+
+    public void bonus(Integer bonus) {
+        this.bonus = bonus;
+        this.score += bonus;
     }
 
 }

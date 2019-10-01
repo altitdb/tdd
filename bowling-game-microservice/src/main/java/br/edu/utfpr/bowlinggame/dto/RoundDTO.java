@@ -6,11 +6,13 @@ public class RoundDTO {
 
     private Integer firstShot;
     private Integer secondShot;
+    private Integer bonus;
     private Integer score;
 
     private RoundDTO(RoundDTOBuilder roundDTOBuilder) {
         this.firstShot = roundDTOBuilder.firstShot;
         this.secondShot = roundDTOBuilder.secondShot;
+        this.bonus = roundDTOBuilder.bonus;
         this.score = roundDTOBuilder.score;
     }
 
@@ -20,6 +22,13 @@ public class RoundDTO {
     public RoundDTO(Integer firstShot, Integer secondShot, Integer score) {
         this.firstShot = firstShot;
         this.secondShot = secondShot;
+        this.score = score;
+    }
+    
+    public RoundDTO(Integer firstShot, Integer secondShot, Integer bonus, Integer score) {
+        this.firstShot = firstShot;
+        this.secondShot = secondShot;
+        this.bonus = bonus;
         this.score = score;
     }
 
@@ -42,6 +51,7 @@ public class RoundDTO {
     public static final class RoundDTOBuilder {
         private Integer firstShot;
         private Integer secondShot;
+        private Integer bonus;
         private Integer score;
 
         private RoundDTOBuilder() {
@@ -54,6 +64,11 @@ public class RoundDTO {
 
         public RoundDTOBuilder withSecondShot(Integer secondShot) {
             this.secondShot = secondShot;
+            return this;
+        }
+
+        public RoundDTOBuilder withBonus(Integer bonus) {
+            this.bonus = bonus;
             return this;
         }
 
@@ -82,7 +97,7 @@ public class RoundDTO {
         }
         RoundDTO other = (RoundDTO) obj;
         return Objects.equals(firstShot, other.firstShot) && Objects.equals(score, other.score)
-                && Objects.equals(secondShot, other.secondShot);
+                && Objects.equals(bonus, other.bonus) && Objects.equals(secondShot, other.secondShot);
     }
 
     @Override
@@ -92,6 +107,8 @@ public class RoundDTO {
         builder.append(firstShot);
         builder.append(", secondShot=");
         builder.append(secondShot);
+        builder.append(", bonus=");
+        builder.append(bonus);
         builder.append(", score=");
         builder.append(score);
         builder.append("]");

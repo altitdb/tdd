@@ -128,7 +128,8 @@ class ShotServiceTest {
         RoundDTO round1 = RoundDTO.builder()
             .withFirstShot(5)
             .withSecondShot(5)
-            .withScore(10)
+            .withBonus(3)
+            .withScore(13)
             .build();
         RoundDTO round2 = RoundDTO.builder()
             .withFirstShot(3)
@@ -151,6 +152,39 @@ class ShotServiceTest {
         BDDMockito.when(roundRepository.count()).thenReturn(10L);
 
         Assertions.assertThrows(MaximumRoundException.class, () -> shotService.shot(4));
+    }
+    
+    @Test
+    void shouldCalculateSparePoints() {
+        Round roundEntity1 = new Round(5);
+        roundEntity1.secondShot(5);
+        BDDMockito.when(roundRepository.findAll()).thenReturn(Collections.singletonList(roundEntity1));
+        Round roundEntity2 = new Round(3);
+        BDDMockito.when(roundRepository.save(roundEntity2)).thenReturn(roundEntity2);
+        Round roundEntity3 = new Round(5);
+        roundEntity3.secondShot(5);
+        roundEntity3.bonus(3);
+        BDDMockito.when(roundRepository.save(roundEntity3)).thenReturn(roundEntity3);
+        RoundDTO round1 = RoundDTO.builder()
+            .withFirstShot(5)
+            .withSecondShot(5)
+            .withBonus(3)
+            .withScore(13)
+            .build();
+        RoundDTO round2 = RoundDTO.builder()
+            .withFirstShot(3)
+            .withScore(3)
+            .build();
+        List<RoundDTO> roundsDTO = new ArrayList<>();
+        roundsDTO.add(round1);
+        roundsDTO.add(round2);
+        RoundsDTO expected = RoundsDTO.builder()
+            .withRounds(roundsDTO)
+            .build();
+        
+        RoundsDTO rounds = shotService.shot(3);
+
+        Assertions.assertEquals(expected, rounds);
     }
 
 }

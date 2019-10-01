@@ -33,7 +33,11 @@ public class ShotService {
             round = new Round(shot);
         } else {
             round = Iterables.getLast(rounds);
-            if (round.isIncomplete()) {
+            if (round.isSpare()) {
+                round.bonus(shot);
+                roundRepository.save(round);
+                round = new Round(shot);
+            } else if (round.isIncomplete()) {
                 round.secondShot(shot);
             } else {
                 round = new Round(shot);
@@ -46,6 +50,12 @@ public class ShotService {
             roundsDTO.add(toDto(savedRound));
         } else {
             Round last = Iterables.getLast(rounds);
+            
+            if (last.isSpare()) {
+                RoundDTO lastDTO = Iterables.getLast(roundsDTO);
+                roundsDTO.remove(lastDTO);
+                roundsDTO.add(new RoundDTO(lastDTO.getFirstShot(), lastDTO.getSecondShot(), shot, lastDTO.getScore()));
+            }
             if (!last.equals(savedRound)) {
                 roundsDTO.add(toDto(savedRound));
             }
