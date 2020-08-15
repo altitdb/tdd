@@ -22,6 +22,11 @@
 		<org.testcontainers.postgresql.version>1.12.1</org.testcontainers.postgresql.version>
 		<postgresql.version>42.2.6</postgresql.version>
 		<hikaricp.version>3.3.1</hikaricp.version>
+		<sonar.projectName>com-criterios-participanteXX</sonar.projectName>
+		<sonar.projectKey>br.edu.utfpr:com-criterios-participanteXX</sonar.projectKey>
+		<sonar.organization>PUT_YOUR_ACCOUNT_HERE-github</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>PUT_YOUR_SONARQUBE_TOKEN_HERE</sonar.login>
 	</properties>
 
 	<dependencies>
@@ -98,4 +103,60 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.5.2</version>
+				<executions>
+					<execution>
+						<id>pit-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>mutationCoverage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>0.8</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<excludedClasses>
+						<param>br.edu.utfpr.bowlinggame.config.*</param>
+					</excludedClasses>
+					<targetClasses>
+						<param>br.edu.utfpr.bowlinggame.*</param>
+					</targetClasses>
+					<targetTests>
+						<param>br.edu.utfpr.bowlinggame.*</param>
+					</targetTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
