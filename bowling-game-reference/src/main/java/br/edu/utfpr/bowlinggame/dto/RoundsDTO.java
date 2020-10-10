@@ -11,7 +11,8 @@ public class RoundsDTO {
         this.rounds = roundsDTOBuilder.rounds;
     }
 
-    public RoundsDTO() {
+    protected RoundsDTO() {
+    	//for frameworks
     }
 
     public List<RoundDTO> getRounds() {
